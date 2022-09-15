@@ -13,7 +13,7 @@ const app = express()
 app.use(express.text())
 
 app.get("/", (_req, res) => { 
-    res.send({ hello: "world" })
+    res.send({ work: true })
 })
 
 app.post("/trading", async (req, res) => {
