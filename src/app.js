@@ -1,5 +1,6 @@
 import express from "express"
 import ccxt from "ccxt"
+Import 'nodemailer' from 'nodemailer'
 import { parseOrder } from "./utils.js"
 import "dotenv/config"
 
@@ -8,6 +9,17 @@ const exchange = new ccxt[exchangeId]({
   apiKey: process.env.BINANCE_KEY,
   secret: process.env.BINANCE_SECRET,
 })
+
+let transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.email',
+  port: 587,
+  secure: false,
+  auth: {
+      user: '',
+      pass: ''
+  },
+})
+
 
 const app = express()
 app.use(express.text())
@@ -32,6 +44,12 @@ app.post("/trading", async (req, res) => {
         res.send(order)
     } catch (error) {
         console.log(error.message)
+        await transporter.sendMail({
+            from: '<foo@example.com>', 
+            to: "bar@example.com",
+            subject: "Hello ✔", 
+            text: error.message,
+        })
         res.send({ error: error.message })
     }
 })
