@@ -45,9 +45,9 @@ app.post("/trading", async (req, res) => {
     } catch (error) {
         console.log(error.message)
         await transporter.sendMail({
-            from: '<foo@example.com>', 
-            to: "bar@example.com",
-            subject: "Hello ✔", 
+            from: process.env.EMAIL_USER, 
+            to: process.env.EMAIL_CLIENTe,
+            subject: "an error ocurred", 
             text: error.message,
         })
         res.send({ error: error.message })
