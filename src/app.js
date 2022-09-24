@@ -3,12 +3,14 @@ import ccxt from "ccxt"
 import nodemailer from "nodemailer"
 import { parseOrder } from "./utils.js"
 import "dotenv/config"
+import { logs, initConection } from "../util/initLogsConfig.js"
 
 const exchangeId = "binanceusdm"
 const exchange = new ccxt[exchangeId]({
   apiKey: process.env.BINANCE_KEY,
   secret: process.env.BINANCE_SECRET,
 })
+
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.email',
@@ -20,6 +22,13 @@ const transporter = nodemailer.createTransport({
   },
 })
 
+
+initConection({
+    host: process.env.HOST_MYSQL,
+    user: process.env.USER_MSYQL,
+    database: process.env.DATABASE_MYSQL,
+    password: process.env.PASSWORD_MYSQL
+})
 
 const app = express()
 app.use(express.text())
@@ -34,16 +43,16 @@ app.post("/trading", async (req, res) => {
         const { Order, Asset, IndividualPosition } = order
         const symbol = Asset.substring(0, Asset.length - 4) + "/" + Asset.substring(Asset.length - 4)
         const LEVERAGE_CANT = process.env.LEVERAGE || 5
-        console.log(order)
+        logs(order)
         if(!exchange.has["setLeverage"])
             throw new Error((exchange.id + ' does not have the setLeverage method'))
         
         const leverage = await exchange.setLeverage(LEVERAGE_CANT, symbol, { marginMode: "cross" })
         const marketOrder = await exchange.createMarketOrder(symbol, Order, IndividualPosition, { "reduceOnly": false })
-        console.log({ leverage, marketOrder })
+        logs({ leverage, marketOrder })
         res.send(order)
     } catch (error) {
-        console.log(error.message)
+        logs(error.message)
         await transporter.sendMail({
             from: process.env.EMAIL_USER, 
             to: process.env.EMAIL_CLIENT,
@@ -54,4 +63,4 @@ app.post("/trading", async (req, res) => {
     }
 })
 
-app.listen(process.env.PORT || 3000, () => console.log("App running"))
+app.listen(process.env.PORT || 3000, () => logs("App running"))
