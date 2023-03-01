@@ -12,23 +12,23 @@ const exchange = new ccxt[exchangeId]({
 })
 
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.email',
-  port: 587,
-  secure: false,
-  auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-  },
-})
+// const transporter = nodemailer.createTransport({
+//   host: 'smtp.gmail.email',
+//   port: 587,
+//   secure: false,
+//   auth: {
+//       user: process.env.EMAIL_USER,
+//       pass: process.env.EMAIL_PASS
+//   },
+// })
 
 
-initConection({
-    host: process.env.HOST_MYSQL,
-    user: process.env.USER_MSYQL,
-    database: process.env.DATABASE_MYSQL,
-    password: process.env.PASSWORD_MYSQL
-})
+// initConection({
+//     host: process.env.HOST_MYSQL,
+//     user: process.env.USER_MSYQL,
+//     database: process.env.DATABASE_MYSQL,
+//     password: process.env.PASSWORD_MYSQL
+// })
 
 const app = express()
 app.use(express.text())
@@ -40,9 +40,9 @@ app.get("/", (_req, res) => {
 app.post("/trading", async (req, res) => {
     try {
         const order = parseOrder(req.body)
-        const { Order, Asset, IndividualPosition } = order
+        const { Order, Asset, IndividualPosition, Leverage } = order
         const symbol = Asset.substring(0, Asset.length - 4) + "/" + Asset.substring(Asset.length - 4)
-        const LEVERAGE_CANT = process.env.LEVERAGE || 5
+        const LEVERAGE_CANT = Leverage || process.env.LEVERAGE || 5
         logs(order)
         if(!exchange.has["setLeverage"])
             throw new Error((exchange.id + ' does not have the setLeverage method'))
