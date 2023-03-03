@@ -10,7 +10,7 @@ const exchange = new ccxt[exchangeId]({
 })
 
 await exchange.loadMarkets()
-
+console.log({ symbols: exchange.symbol("BTC/USDT") })
 const app = express()
 app.use(express.text())
 
@@ -28,6 +28,8 @@ app.post("/trading", async (req, res) => {
         if(!exchange.has["setLeverage"])
             throw new Error((exchange.id + ' does not have the setLeverage method'))
         
+        await exchange.loadMarkets()
+
         const leverage = await exchange.setLeverage(LEVERAGE_CANT, symbol, { marginMode: "cross" })
         const marketOrder = await exchange.createMarketOrder(symbol, Order, IndividualPosition, { "reduceOnly": false })
         console.log({ leverage, marketOrder })
@@ -39,3 +41,4 @@ app.post("/trading", async (req, res) => {
 })
 
 app.listen(process.env.PORT || 3000, () => console.log("App running"))
+
