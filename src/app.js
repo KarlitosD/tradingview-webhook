@@ -23,7 +23,7 @@ app.post("/trading", async (req, res) => {
         const { Order, Asset, IndividualPosition, Leverage } = order
         const symbol = Asset.substring(0, Asset.length - 4) + "/" + Asset.substring(Asset.length - 4)
         const LEVERAGE_CANT = +Leverage || process.env.LEVERAGE || 5
-        logs(order)
+        console.log(order)
         if(!exchange.has["setLeverage"])
             throw new Error((exchange.id + ' does not have the setLeverage method'))
         
