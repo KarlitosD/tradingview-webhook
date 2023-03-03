@@ -3,7 +3,6 @@ import ccxt from "ccxt"
 import nodemailer from "nodemailer"
 import { parseOrder } from "./utils.js"
 import "dotenv/config"
-import { logs, initConection } from "../util/initLogsConfig.js"
 
 const exchangeId = "binanceusdm"
 const exchange = new ccxt[exchangeId]({
@@ -30,10 +29,10 @@ app.post("/trading", async (req, res) => {
         
         const leverage = await exchange.setLeverage(LEVERAGE_CANT, symbol, { marginMode: "cross" })
         const marketOrder = await exchange.createMarketOrder(symbol, Order, IndividualPosition, { "reduceOnly": false })
-        logs({ leverage, marketOrder })
+        console.log({ leverage, marketOrder })
         res.send(order)
     } catch (error) {
-        logs(error.message)
+        console.log(error.message)
         res.send({ error: error.message })
     }
 })
