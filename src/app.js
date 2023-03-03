@@ -53,12 +53,6 @@ app.post("/trading", async (req, res) => {
         res.send(order)
     } catch (error) {
         logs(error.message)
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER, 
-            to: process.env.EMAIL_CLIENT,
-            subject: "an error ocurred", 
-            text: error.message,
-        })
         res.send({ error: error.message })
     }
 })
