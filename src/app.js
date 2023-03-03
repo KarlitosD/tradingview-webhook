@@ -11,25 +11,6 @@ const exchange = new ccxt[exchangeId]({
   secret: process.env.BINANCE_SECRET,
 })
 
-
-// const transporter = nodemailer.createTransport({
-//   host: 'smtp.gmail.email',
-//   port: 587,
-//   secure: false,
-//   auth: {
-//       user: process.env.EMAIL_USER,
-//       pass: process.env.EMAIL_PASS
-//   },
-// })
-
-
-// initConection({
-//     host: process.env.HOST_MYSQL,
-//     user: process.env.USER_MSYQL,
-//     database: process.env.DATABASE_MYSQL,
-//     password: process.env.PASSWORD_MYSQL
-// })
-
 const app = express()
 app.use(express.text())
 
