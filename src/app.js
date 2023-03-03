@@ -1,6 +1,5 @@
 import express from "express"
 import ccxt from "ccxt"
-import nodemailer from "nodemailer"
 import { parseOrder } from "./utils.js"
 import "dotenv/config"
 
