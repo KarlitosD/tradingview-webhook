@@ -10,6 +10,8 @@ const exchange = new ccxt[exchangeId]({
   secret: process.env.BINANCE_SECRET,
 })
 
+await exchange.loadMarkets()
+
 const app = express()
 app.use(express.text())
 
