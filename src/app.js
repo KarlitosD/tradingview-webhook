@@ -9,8 +9,11 @@ const exchange = new ccxt[exchangeId]({
   secret: process.env.BINANCE_SECRET,
 })
 
-await exchange.loadMarkets()
-console.log({ symbols: exchange.symbol("SOL/USDT") })
+(async () => {
+  await exchange.loadMarkets()
+  console.log({ symbols: exchange.symbol("SOL/USDT") })
+})()
+
 const app = express()
 app.use(express.text())
 
