@@ -10,7 +10,7 @@ const exchange = new ccxt[exchangeId]({
 })
 
 await exchange.loadMarkets()
-console.log({ symbols: exchange.symbol("BTC/USDT") })
+console.log({ symbols: exchange.symbol("SOL/USDT") })
 const app = express()
 app.use(express.text())
 
