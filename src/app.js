@@ -37,4 +37,4 @@ app.post("/trading", async (req, res) => {
     }
 })
 
-app.listen(process.env.PORT || 3000, () => logs("App running"))
+app.listen(process.env.PORT || 3000, () => console.log("App running"))
